@@ -25,7 +25,7 @@ export class AppComponent {
   }
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
-     this.initialPosition();
+    this.initialPosition();
   }
   ngAfterViewInit() {
     //this.initialPosition();
@@ -51,47 +51,74 @@ export class AppComponent {
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
   captureCoordinate(event: any) {
-    if ((event.offsetX + 41) < this.width && (event.offsetY + 40) < this.height && event.offsetY >= 0 && event.offsetX >= 0) {
-      this.clear();
-      this.xposoff = event.offsetX;
-      this.yposoff = event.offsetY;
-      if (this.xposprv > this.xposoff) {
-        let xdiff = this.xposprvmouse - this.xposoff;
-        if (this.yposprv > this.yposoff) {
-          let ydiff = this.yposprvmouse - this.yposoff;
-          // alert(xdiff + "/" + ydiff);
-          this.ctx.drawImage(this.image, this.xposprv - xdiff, this.yposprv - ydiff, 40, 40);
-          this.yposprv = this.yposprv - ydiff;
-        }
-        else {
-          let ydiff = this.yposoff - this.yposprvmouse;
-          //alert(xdiff+"/"+ydiff);
-          this.ctx.drawImage(this.image, this.xposprv - xdiff, this.yposprv + ydiff, 40, 40);
-          this.yposprv = this.yposprv + ydiff;
-        }
-        this.xposprv = this.xposprv - xdiff;
-      }
-      else {
-        let xdiff = this.xposoff - this.xposprvmouse;
-        if (this.yposprv > this.yposoff) {
-          let ydiff = this.yposprv - this.yposoff;
-          //alert(xdiff+"/"+ydiff);
-          this.ctx.drawImage(this.image, this.xposprv + xdiff, this.yposprv - ydiff, 40, 40);
-          this.yposprv = this.yposprv - ydiff;
-        }
-        else {
-          let ydiff = this.yposoff - this.yposprvmouse;
-          //alert(xdiff+"/"+ydiff);
-          this.ctx.drawImage(this.image, this.xposprv + xdiff, this.yposprv + ydiff, 40, 40);
-          this.yposprv = this.yposprv + ydiff;
-        }
-        this.xposprv = this.xposprv + xdiff;
-      }
-      this.xposprvmouse = event.offsetX;
-      this.yposprvmouse = event.offsetY;
+    this.clear();
+    if ((event.offsetX + 41) > this.width) {
+      this.xposoff = event.offsetX - 40;
     }
     else {
-      alert("Can't Cross the Bounder!!!");
+      if (event.offsetX < 0)
+        this.xposoff = event.offsetX + 1;
+      else
+        this.xposoff = event.offsetX;
+    }
+    if ((event.offsetY + 40) > this.height) {
+      this.yposoff = event.offsetY - 40;
+    }
+    else {
+      if (event.offsetY < 0)
+        this.yposoff = event.offsetY + 1;
+      else
+        this.yposoff = event.offsetY;
+    }
+    if (this.xposprv > this.xposoff) {
+      let xdiff = this.xposprvmouse - this.xposoff;
+      if (this.yposprv > this.yposoff) {
+        let ydiff = this.yposprvmouse - this.yposoff;
+        // alert(xdiff + "/" + ydiff);
+        this.ctx.drawImage(this.image, this.xposprv - xdiff, this.yposprv - ydiff, 40, 40);
+        this.yposprv = this.yposprv - ydiff;
+      }
+      else {
+        let ydiff = this.yposoff - this.yposprvmouse;
+        //alert(xdiff+"/"+ydiff);
+        this.ctx.drawImage(this.image, this.xposprv - xdiff, this.yposprv + ydiff, 40, 40);
+        this.yposprv = this.yposprv + ydiff;
+      }
+      this.xposprv = this.xposprv - xdiff;
+    }
+    else {
+      let xdiff = this.xposoff - this.xposprvmouse;
+      if (this.yposprv > this.yposoff) {
+        let ydiff = this.yposprv - this.yposoff;
+        //alert(xdiff+"/"+ydiff);
+        this.ctx.drawImage(this.image, this.xposprv + xdiff, this.yposprv - ydiff, 40, 40);
+        this.yposprv = this.yposprv - ydiff;
+      }
+      else {
+        let ydiff = this.yposoff - this.yposprvmouse;
+        //alert(xdiff+"/"+ydiff);
+        this.ctx.drawImage(this.image, this.xposprv + xdiff, this.yposprv + ydiff, 40, 40);
+        this.yposprv = this.yposprv + ydiff;
+      }
+      this.xposprv = this.xposprv + xdiff;
+    }
+    if ((event.offsetX + 41) > this.width) {
+      this.xposprvmouse = event.offsetX - 40;
+    }
+    else {
+      if (event.offsetX < 0)
+        this.xposprvmouse = event.offsetX + 1;
+      else
+        this.xposprvmouse = event.offsetX;
+    }
+    if ((event.offsetY + 40) > this.height) {
+      this.yposprvmouse = event.offsetY - 40;
+    }
+    else {
+      if (event.offsetY < 0)
+        this.yposprvmouse = event.offsetY + 1;
+      else
+        this.yposprvmouse = event.offsetY;
     }
   }
 
